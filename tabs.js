@@ -1,6 +1,10 @@
 (function(win, doc, undefined) {
 	'use strict';
 
+	/* ==========================================================================
+	   Helper functions
+	   ========================================================================== */
+
 	// Cross browser events
 	var add_event = function(el, ev, fn) {
 		'addEventListener' in win ? 
@@ -21,6 +25,9 @@
 			return doc.querySelectorAll('.' + className);
 	}
 
+	/* ==========================================================================
+	   
+	   ========================================================================== */
 	if(!'querySelector' in doc) {
 		// No point in going any further
 		return;
