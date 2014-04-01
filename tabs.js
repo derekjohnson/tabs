@@ -105,6 +105,8 @@
 				if(x.nodeName.toLowerCase() === 'li') {
 					// get the id of the clicked tab
 					x_id = x.id;
+				} else {
+					return; // stop clicks on the <ul> hiding everything
 				}
 
 				show_hide(x_id);
@@ -148,6 +150,7 @@
 				// Add unique attributes to each list item
 				li.id = 'tab' + (i + 1);
 				li.setAttribute('aria-controls', panels[i].id);
+				li.setAttribute('tabindex', 0);
 
 				i === 0 ?
 					li.setAttribute('aria-selected', 'true') :
