@@ -3,33 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Clinivet</title>
+		<title>Progressively enhanced accessible tab UI</title>
 		<meta name="description" content="Progressively enhanced accessible tabs">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<script>(function(b,a){"querySelector"in b&&(a.className=a.className.replace(/\bjs\b/,"js-mustard"))})(document,document.documentElement);</script>
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="style.css">
 	</head>
 
 	<body>
-		<h1>Page title</h1>
+		<h1>Wigs</h1>
 
-		<section class="js-tab">
-			<h2 class="js-tab__title">Section 1 title</h2>
+		<div class="js-tab-ui">
+			<section class="js-panel" id="blond">
+				<h2 class="js-panel__title">Blond</h2>
 
-			<p>Content for the first section goes here content.</p>
-		</section>
+				<p>Content for the first section goes here content.</p>
+			</section>
 
-		<section class="js-tab">
-			<h2 class="js-tab__title">Section 2 title</h2>
+			<section class="js-panel" id="brown">
+				<h2 class="js-panel__title">Brown</h2>
 
-			<p>And the second section's content goes here.</p>
-		</section>
+				<p>And the second section's content goes here.</p>
+			</section>
 
-		<section class="js-tab">
-			<h2 class="js-tab__title">Section 3 title</h2>
+			<section class="js-panel" id="ginger">
+				<h2 class="js-panel__title">Ginger</h2>
 
-			<p>Finally for now, the third section's content goes here.</p>
-		</section>
+				<p>Finally for now, the third section's content goes here.</p>
+			</section>
+		</div>
 
 		<script src="tabs.js"></script>
 	</body>

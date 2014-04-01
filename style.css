@@ -1,0 +1,17 @@
+h1 {
+	font-size: 2em;
+	line-height: 1.3125;
+	margin: 0 0 0.9375em;
+}
+
+h2 {
+	font-size: 1.4375em;
+	line-height: 1.34782608695652;
+	margin: 0 0 0.54838709677419em;
+}
+
+p {
+	font-size: 1em;
+	line-height: 1.5;
+	margin: 0 0 1.5em;
+}
