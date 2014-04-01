@@ -39,6 +39,26 @@ p {
 	max-width: 38.5em;
 }
 
+img {
+	max-width: 100%;
+}
+
+section {
+	display: block;
+}
+
+figure {
+	display: block;
+	margin: 0 0 1.5em;
+}
+
+figcaption {
+	font-style: italic;
+	font-size: 0.875em;
+	line-height: 1.71428571428571;
+	display: block;
+}
+
 /* ==========================================================================
    Tabbed UI
    ========================================================================== */

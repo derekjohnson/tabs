@@ -76,10 +76,10 @@
 					}
 
 					// update the ARIA
-					if(els[i].id === x_id) {
-						els[i].setAttribute('aria-selected', 'true');
+					if(items[i].id === x_id) {
+						items[i].setAttribute('aria-selected', 'true');
 					} else {
-						els[i].setAttribute('aria-selected', 'false');
+						items[i].setAttribute('aria-selected', 'false');
 					}
 				}
 
@@ -142,7 +142,7 @@
 			/* Build each tab and add all required attributes to tabs & panels
 			   ========================================================================== */
 
-			var els = [];
+			var items = [];
 
 			for(i=0; i<ii; i++) {
 				var li = build_tab(doc.createElement('li'), tab_names[i].textContent, 'product-tabs__item');
@@ -160,7 +160,7 @@
 				frag.appendChild(li);
 
 				// Stick them into the items array
-				els[i] = li;
+				items[i] = li;
 
 				// Panels
 				panels[i].setAttribute('role', 'tabpanel');
