@@ -34,6 +34,7 @@
 			}
 
 
+
 			/* Feature detect for localStorage courtesy of 
 			   http://mathiasbynens.be/notes/localstorage-pattern
 			   ========================================================================== */
@@ -50,6 +51,7 @@
 			} catch(e) {}
 
 
+
 			/* DOM nodes we'll need
 			   ========================================================================== */
 
@@ -60,22 +62,11 @@
 				ii = panels.length;
 
 
-			/* Show/hide the panels, update the tabs
+
+			/* Show hide the panels, update the tabs' attributes
 			   ========================================================================== */
 
-			var show_hide = function(event) {
-				var x,
-					x_id;
-
-				typeof event.target !== 'undefined' ?
-					x = event.target :
-					x = event.srcElement;
-
-				if(x.nodeName.toLowerCase() === 'li') {
-					// get the id of the clicked tab
-					x_id = x.id;
-				}
-
+			var show_hide = function(x_id) {
 				for(i=0; i<ii; i++) {
 					// display the correct panel, hide the others
 					if(panels[i].getAttribute('aria-labelledby') === x_id) {
@@ -91,7 +82,34 @@
 						els[i].setAttribute('aria-selected', 'false');
 					}
 				}
+
+				// put the tab id into localStorage
+				if(storage) {
+					localStorage['tab'] = x_id;
+				}
+			}
+
+
+
+			/* When a tab has been clicked
+			   ========================================================================== */
+
+			var tabber = function(event) {
+				var x,
+					x_id;
+
+				typeof event.target !== 'undefined' ?
+					x = event.target :
+					x = event.srcElement;
+
+				if(x.nodeName.toLowerCase() === 'li') {
+					// get the id of the clicked tab
+					x_id = x.id;
+				}
+
+				show_hide(x_id);
 			};
+
 
 
 			/* Create each tab item
@@ -106,6 +124,7 @@
 			};
 
 
+
 			/* Make an empty list that will hold the tabs
 			   ========================================================================== */
 
@@ -115,6 +134,7 @@
 			// Basic attributes for the list
 			tabs.className = 'product-tabs';
 			tabs.setAttribute('role', 'tablist');
+
 
 
 			/* Build each tab and add all required attributes to tabs & panels
@@ -145,6 +165,7 @@
 			}
 
 
+
 			/* Insert the tabs into the DOM
 			   ========================================================================== */
 
@@ -153,11 +174,21 @@
 			wrapper.insertBefore(tabs, get_single_by_class('js-panel'));
 
 
+
 			/* Listen for clicks on the tab list
 			   ========================================================================== */
-			add_event(tabs, 'click', show_hide);
+			add_event(tabs, 'click', tabber);
+
+
+			/* If a tab id is in localStorage open the corresponding panel
+			   ========================================================================== */
+
+			if(storage && localStorage['tab']) {
+				show_hide(localStorage['tab']);
+			}
 		};
 
+		// Make all that happen
 		tabs();
 
 	}
