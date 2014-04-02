@@ -16,3 +16,7 @@ None of the CSS is required however, the tabs work as a plain unordered list if 
 
 - use a config object
 - add keyboard accessibility
+
+## Demo
+
+[View demo](http://derekjohnson.github.io/tabs/)
