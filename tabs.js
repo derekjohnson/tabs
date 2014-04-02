@@ -76,10 +76,10 @@
 					}
 
 					// update the ARIA
-					if(els[i].id === x_id) {
-						els[i].setAttribute('aria-selected', 'true');
+					if(items[i].id === x_id) {
+						items[i].setAttribute('aria-selected', 'true');
 					} else {
-						els[i].setAttribute('aria-selected', 'false');
+						items[i].setAttribute('aria-selected', 'false');
 					}
 				}
 
@@ -105,6 +105,8 @@
 				if(x.nodeName.toLowerCase() === 'li') {
 					// get the id of the clicked tab
 					x_id = x.id;
+				} else {
+					return; // stop clicks on the <ul> hiding everything
 				}
 
 				show_hide(x_id);
@@ -140,7 +142,7 @@
 			/* Build each tab and add all required attributes to tabs & panels
 			   ========================================================================== */
 
-			var els = [];
+			var items = [];
 
 			for(i=0; i<ii; i++) {
 				var li = build_tab(doc.createElement('li'), tab_names[i].textContent, 'product-tabs__item');
@@ -148,6 +150,7 @@
 				// Add unique attributes to each list item
 				li.id = 'tab' + (i + 1);
 				li.setAttribute('aria-controls', panels[i].id);
+				li.setAttribute('tabindex', 0);
 
 				i === 0 ?
 					li.setAttribute('aria-selected', 'true') :
@@ -157,7 +160,7 @@
 				frag.appendChild(li);
 
 				// Stick them into the items array
-				els[i] = li;
+				items[i] = li;
 
 				// Panels
 				panels[i].setAttribute('role', 'tabpanel');
