@@ -2,11 +2,7 @@
 	'use strict';
 
 	// Quick feature test
-	if(!'querySelector' in doc) {
-
-		return;
-
-	} else {
+	if('querySelector' in doc) {
 
 		var tabs = function() {
 
@@ -261,5 +257,8 @@
 		// Make all that happen
 		tabs();
 
+	} else {
+		alert('no');
+		return;
 	}
 })(this, this.document);

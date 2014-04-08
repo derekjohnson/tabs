@@ -14,6 +14,8 @@ body {
 	height: 100%;
 	max-width: 50em;
 	margin: 0 auto;
+	
+	*height: auto;
 }
 
 h1 {
