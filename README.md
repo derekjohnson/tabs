@@ -1,8 +1,8 @@
-# Progressively enhanced accessible tabbed UI v0.0.1 2014-04-02
+# Progressively enhanced accessible tabbed UI
 
 When a page contains a set of `<section>` elements with titles this script generates an unordered list that works as a tab UI.
 
-NB this is very alpha, it's not very developer friendly and not keyboard accessible yet.
+NB it's very alpha.
 
 ## Usage
 
@@ -15,7 +15,6 @@ None of the CSS is required however, the tabs work as a plain unordered list if 
 ## Todo
 
 - use a config object
-- add keyboard accessibility
 
 ## Demo
 
