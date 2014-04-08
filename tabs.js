@@ -2,11 +2,7 @@
 	'use strict';
 
 	// Quick feature test
-	if(!'querySelector' in doc) {
-
-		return;
-
-	} else {
+	if('querySelector' in doc) {
 
 		var tabs = function() {
 
@@ -176,7 +172,7 @@
 			   ========================================================================== */
 
 			var build_tab = function(el, text, classification) {
-				el.textContent = text;
+				el.innerHTML = text;
 				el.className = classification;
 				el.setAttribute('role', 'tab');
 
@@ -203,7 +199,7 @@
 			var items = [];
 
 			for(i=0; i<ii; i++) {
-				var li = build_tab(doc.createElement('li'), tab_names[i].textContent, 'product-tabs__item');
+				var li = build_tab(doc.createElement('li'), tab_names[i].innerHTML, 'product-tabs__item');
 
 				// Add unique attributes to each list item
 				li.id = 'tab' + (i + 1);
@@ -261,5 +257,7 @@
 		// Make all that happen
 		tabs();
 
+	} else {
+		return;
 	}
 })(this, this.document);
