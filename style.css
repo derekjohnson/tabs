@@ -75,8 +75,9 @@ figcaption {
 
 [role=tab] {
 	cursor: pointer;
-	list-style: none;
+	color: #000;
 	background-color: #eaeaea;
+	list-style: none;
 	text-align: center;
 	line-height: 2.75;
 	margin: 0 0.25em 0.25em 0;

@@ -258,7 +258,6 @@
 		tabs();
 
 	} else {
-		alert('no');
 		return;
 	}
 })(this, this.document);
