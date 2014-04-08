@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.3 2014-04-09
+
+- better documentation
+
 ## v0.0.2 2014-04-09
 
 - add keyboard interaction
