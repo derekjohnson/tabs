@@ -1,3 +1,31 @@
+var helper = (function(win, doc, undefined) {
+
+	return {
+		// Cross browser events
+		add_event: function(el, ev, fn) {
+			'addEventListener' in win ? 
+				el.addEventListener(ev, fn, false) : 
+				el.attachEvent('on' + ev, fn);
+		},
+
+		// Faster class selectors
+		// http://jsperf.com/queryselector-vs-getelementsbyclassname-0
+		get_single_by_class: function(className) {
+			return 'getElementsByClassName' in doc ? 
+				doc.getElementsByClassName(className)[0] : 
+				doc.querySelector('.' + className);
+		},
+
+		//http://jsperf.com/byclassname-vs-queryselectorall
+		get_many_by_class: function(className) {
+			return 'getElementsByClassName' in doc ? 
+				doc.getElementsByClassName(className) : 
+				doc.querySelectorAll('.' + className);
+		}
+	};
+
+})(this, this.document);
+
 (function(win, doc, undefined) {
 	'use strict';
 
@@ -6,36 +34,10 @@
 
 		var tabs = function() {
 
-			/* Helper functions
-			   ========================================================================== */
-
-			// Cross browser events
-			var add_event = function(el, ev, fn) {
-				'addEventListener' in win ? 
-					el.addEventListener(ev, fn, false) : 
-					el.attachEvent('on' + ev, fn);
-			};
-
-			// Faster class selectors
-			// http://jsperf.com/queryselector-vs-getelementsbyclassname-0
-			var get_single_by_class = function(className) {
-				return 'getElementsByClassName' in doc ? 
-					doc.getElementsByClassName(className)[0] : 
-					doc.querySelector('.' + className);
-			}
-
-			//http://jsperf.com/byclassname-vs-queryselectorall
-			var get_many_by_class = function(className) {
-				return 'getElementsByClassName' in doc ? 
-					doc.getElementsByClassName(className) : 
-					doc.querySelectorAll('.' + className);
-			}
-
-
-
 			/* Feature detect for localStorage courtesy of 
 			   http://mathiasbynens.be/notes/localstorage-pattern
 			   ========================================================================== */
+
 			var storage,
 				fail,
 				uid;
@@ -53,11 +55,11 @@
 			/* DOM nodes we'll need
 			   ========================================================================== */
 
-			var wrapper = get_single_by_class('js-tab-ui'),
-				panels = get_many_by_class('js-panel'),
-				tab_names = get_many_by_class('js-panel__title'),
+			var wrapper = helper.get_single_by_class('js-tab-ui'),
+				panels = helper.get_many_by_class('js-panel'),
+				tab_names = helper.get_many_by_class('js-panel__title'),
 				i,
-				ii = panels.length;
+				panel_count = panels.length;
 
 
 
@@ -65,7 +67,7 @@
 			   ========================================================================== */
 
 			var show_hide = function(x_id) {
-				for(i=0; i<ii; i++) {
+				for(i=0; i<panel_count; i++) {
 					// display the correct panel, hide the others
 					if(panels[i].getAttribute('aria-labelledby') === x_id) {
 						panels[i].style.display = 'block';
@@ -93,21 +95,16 @@
 			   ========================================================================== */
 
 			var clicked = function(event) {
-				var x,
-					x_id;
+				var clicked_element;
 
-				typeof event.target !== 'undefined' ?
-					x = event.target :
-					x = event.srcElement;
+				clicked_element = event.target || event.srcElement;
 
-				if(x.nodeName.toLowerCase() === 'li') {
-					// get the id of the clicked tab
-					x_id = x.id;
+				if(clicked_element.nodeName.toLowerCase() === 'li') {
+					show_hide(clicked_element.id);
 				} else {
 					return; // stop clicks on the <ul> hiding everything
 				}
 
-				show_hide(x_id);
 			};
 
 
@@ -115,8 +112,7 @@
 			/* Keyboard interaction
 			   ========================================================================== */
 			var kbd = function(event) {
-				var x,
-					x_id,
+				var focused_element,
 					key_code,
 					next,
 					prev;
@@ -125,15 +121,11 @@
 
 				key_code = event.keyCode || event.which;
 
-				console.log(key_code);
-
-				typeof event.target !== 'undefined' ?
-					x = event.target :
-					x = event.srcElement;
+				focused_element = event.target || event.srcElement;
 
 				// up or right arrow key moves focus to the next tab
 				if(key_code === 38 || key_code === 39) {
-					next = x.nextSibling;
+					next = focused_element.nextSibling;
 
 					// make sure we're on an element node
 					if(next.nodeType !== 1) {
@@ -146,7 +138,7 @@
 
 				// left or down arrow key moves focus to the previous tab
 				if(key_code === 37 || key_code === 40) {
-					prev = x.previousSibling;
+					prev = focused_element.previousSibling;
 
 					// make sure we're on an element node
 					if(prev.nodeType !== 1) {
@@ -159,7 +151,7 @@
 
 				// space bar
 				if(key_code === 32) {
-					show_hide(x.id);
+					show_hide(focused_element.id);
 				}
 
 				// Prevent space bar moving the page down
@@ -181,7 +173,7 @@
 
 
 
-			/* Make an empty list that will hold the tabs
+			/* Make an empty unordered list that will hold the tabs
 			   ========================================================================== */
 
 			var frag = doc.createDocumentFragment(),
@@ -198,7 +190,7 @@
 
 			var items = [];
 
-			for(i=0; i<ii; i++) {
+			for(i=0; i<panel_count; i++) {
 				var li = build_tab(doc.createElement('li'), tab_names[i].innerHTML, 'product-tabs__item');
 
 				// Add unique attributes to each list item
@@ -230,19 +222,15 @@
 
 			tabs.appendChild(frag);
 
-			wrapper.insertBefore(tabs, get_single_by_class('js-panel'));
+			wrapper.insertBefore(tabs, helper.get_single_by_class('js-panel'));
 
 
 
-			/* Listen for clicks on the tab list
+			/* Event listeners
 			   ========================================================================== */
-			add_event(tabs, 'click', clicked);
 
-
-
-			/* Listen for key presses
-			   ========================================================================== */
-			add_event(tabs, 'keydown', kbd);
+			helper.add_event(tabs, 'click', clicked);
+			helper.add_event(tabs, 'keydown', kbd);
 
 
 
