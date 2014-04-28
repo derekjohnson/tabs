@@ -16,28 +16,16 @@ var helper = (function(win, doc, undefined) {
 				doc.querySelector('.' + className);
 		},
 
-		//http://jsperf.com/byclassname-vs-queryselectorall
+		// http://jsperf.com/byclassname-vs-queryselectorall
 		get_many_by_class: function(className) {
 			return 'getElementsByClassName' in doc ? 
 				doc.getElementsByClassName(className) : 
 				doc.querySelectorAll('.' + className);
-		}
-	};
+		},
 
-})(this, this.document);
-
-(function(win, doc, undefined) {
-	'use strict';
-
-	// Quick feature test
-	if('querySelector' in doc) {
-
-		var tabs = function() {
-
-			/* Feature detect for localStorage courtesy of 
-			   http://mathiasbynens.be/notes/localstorage-pattern
-			   ========================================================================== */
-
+		// Feature detect for localStorage
+		// http://mathiasbynens.be/notes/localstorage-pattern
+		storage: function() {
 			var storage,
 				fail,
 				uid;
@@ -50,7 +38,19 @@ var helper = (function(win, doc, undefined) {
 				fail && (storage = false);
 			} catch(e) {}
 
+			return storage;
+		}
+	};
 
+})(this, this.document);
+
+(function(win, doc, undefined) {
+	'use strict';
+
+	// Quick feature test
+	if('querySelector' in doc) {
+
+		var tabs = function() {
 
 			/* DOM nodes we'll need
 			   ========================================================================== */
@@ -84,7 +84,7 @@ var helper = (function(win, doc, undefined) {
 				}
 
 				// put the tab id into localStorage
-				if(storage) {
+				if(helper.storage) {
 					localStorage['tab'] = x_id;
 				}
 			}
@@ -237,7 +237,7 @@ var helper = (function(win, doc, undefined) {
 			/* If a tab id is in localStorage open the corresponding panel
 			   ========================================================================== */
 
-			if(storage && localStorage['tab']) {
+			if(helper.storage && localStorage['tab']) {
 				show_hide(localStorage['tab']);
 			}
 		};
